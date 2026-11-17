@@ -1,0 +1,1954 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#4F46E5" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="TugasKu SMA" />
+  <title>TugasKu SMA — Pengingat Sisa Tugas Sekolah</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%234F46E5'/%3E%3Cpath d='M30 52l14 14 28-30' stroke='white' stroke-width='10' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%234F46E5'/%3E%3Cpath d='M30 52l14 14 28-30' stroke='white' stroke-width='10' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg: #F3F4F8;
+      --surface: #FFFFFF;
+      --surface-2: #F8FAFC;
+      --text: #0F172A;
+      --text-muted: #64748B;
+      --border: #E2E8F0;
+      --primary: #4F46E5;
+      --primary-dark: #3730A3;
+      --primary-soft: #EEF2FF;
+      --accent: #0EA5E9;
+      --success: #10B981;
+      --success-soft: #ECFDF5;
+      --warning: #F59E0B;
+      --warning-soft: #FFFBEB;
+      --danger: #EF4444;
+      --danger-soft: #FEF2F2;
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+      --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+      --shadow-lg: 0 16px 36px rgba(79, 70, 229, 0.22);
+      --radius: 18px;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    body.dark {
+      --bg: #0B1120;
+      --surface: #151E32;
+      --surface-2: #1E293B;
+      --text: #F8FAFC;
+      --text-muted: #94A3B8;
+      --border: #27354F;
+      --primary: #6366F1;
+      --primary-dark: #4F46E5;
+      --primary-soft: rgba(99, 102, 241, 0.16);
+      --success-soft: rgba(16, 185, 129, 0.16);
+      --warning-soft: rgba(245, 158, 11, 0.16);
+      --danger-soft: rgba(239, 68, 68, 0.16);
+      --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.25);
+      --shadow-md: 0 10px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      padding-bottom: calc(88px + var(--safe-bottom));
+    }
+
+    @media (min-width: 520px) {
+      body {
+        padding: 16px 0;
+      }
+      .app-shell {
+        min-height: calc(100vh - 32px);
+        border-radius: 32px;
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+      }
+    }
+
+    /* Header */
+    .top-header {
+      background: linear-gradient(135deg, #4F46E5 0%, #3B82F6 100%);
+      color: #FFFFFF;
+      padding: 20px 20px 26px;
+      border-bottom-left-radius: 28px;
+      border-bottom-right-radius: 28px;
+      box-shadow: 0 10px 25px rgba(79, 70, 229, 0.25);
+      position: relative;
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .brand-text h1 {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+
+    .brand-text p {
+      font-size: 12px;
+      opacity: 0.85;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      border: none;
+      background: rgba(255, 255, 255, 0.18);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 17px;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .icon-btn:active {
+      transform: scale(0.92);
+    }
+
+    /* Hero Stats Card */
+    .hero-card {
+      background: rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 20px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .hero-main .label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      opacity: 0.85;
+      font-weight: 600;
+    }
+
+    .hero-main .big-num {
+      font-size: 34px;
+      font-weight: 800;
+      line-height: 1.1;
+      margin: 2px 0 4px;
+    }
+
+    .hero-main .sub-info {
+      font-size: 12.5px;
+      opacity: 0.92;
+    }
+
+    .hero-pills {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 128px;
+    }
+
+    .mini-stat {
+      background: rgba(15, 23, 42, 0.22);
+      padding: 8px 12px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+    }
+
+    .mini-stat strong {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    /* Warning banner for restricted Android viewer */
+    .storage-banner {
+      display: none;
+      margin: 12px 16px 0;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: var(--warning-soft);
+      border: 1px solid var(--warning);
+      color: var(--text);
+      font-size: 12px;
+    }
+
+    /* Main Content Area */
+    .main-content {
+      padding: 16px;
+      flex: 1;
+    }
+
+    .view-section {
+      display: none;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .view-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Search & Filter */
+    .search-box {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px 16px 12px 40px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .search-box input:focus {
+      border-color: var(--primary);
+    }
+
+    .search-box .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+
+    .chips-row {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-bottom: 14px;
+      scrollbar-width: none;
+    }
+
+    .chips-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chip {
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      font-size: 12.5px;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .chip.active {
+      background: var(--primary);
+      color: #FFFFFF;
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 6px 0 12px;
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-action {
+      font-size: 12px;
+      color: var(--primary);
+      background: none;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Task Cards */
+    .task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+
+    .task-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      transition: transform 0.15s ease, opacity 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .task-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--card-accent, var(--primary));
+    }
+
+    .task-card.overdue {
+      border-color: rgba(239, 68, 68, 0.45);
+    }
+
+    .check-circle {
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+      border-radius: 50%;
+      border: 2px solid var(--text-muted);
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      margin-top: 2px;
+      transition: all 0.15s ease;
+      color: transparent;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .check-circle:hover {
+      border-color: var(--success);
+    }
+
+    .task-card.completed .check-circle {
+      background: var(--success);
+      border-color: var(--success);
+      color: #FFFFFF;
+    }
+
+    .task-body {
+      flex: 1;
+      min-width: 0;
+      cursor: pointer;
+    }
+
+    .task-top-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 5px;
+    }
+
+    .subject-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 8px;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .type-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 8px;
+      background: var(--surface-2);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .priority-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .task-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+      word-break: break-word;
+    }
+
+    .task-card.completed .task-title {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+
+    .task-notes {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .task-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .deadline-pill {
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .deadline-overdue {
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
+    .deadline-urgent {
+      background: var(--warning-soft);
+      color: #D97706;
+    }
+
+    body.dark .deadline-urgent {
+      color: #FBBF24;
+    }
+
+    .deadline-normal {
+      background: var(--surface-2);
+      color: var(--text-muted);
+    }
+
+    .deadline-done {
+      background: var(--success-soft);
+      color: var(--success);
+    }
+
+    .date-text {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      background: var(--surface);
+      border-radius: 22px;
+      border: 1px dashed var(--border);
+    }
+
+    .empty-state .emoji {
+      font-size: 44px;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .empty-state h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .empty-state p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Subject Grid View */
+    .subject-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 11px;
+    }
+
+    .subject-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+
+    .subject-card:active {
+      transform: scale(0.97);
+    }
+
+    .subject-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .subject-emoji {
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .subject-count {
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .subject-name {
+      font-size: 13.5px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: var(--surface-2);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.3s ease;
+    }
+
+    /* Timeline Group */
+    .timeline-group {
+      margin-bottom: 18px;
+    }
+
+    .timeline-label {
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Settings & Backup Cards */
+    .settings-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .settings-card h3 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .settings-card p {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #FFFFFF;
+      border-color: var(--primary);
+    }
+
+    .btn-danger {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+
+    /* Floating Action Button */
+    .fab {
+      position: fixed;
+      bottom: calc(76px + var(--safe-bottom));
+      right: 20px;
+      width: 58px;
+      height: 58px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #4F46E5 0%, #2563EB 100%);
+      color: #FFFFFF;
+      border: none;
+      font-size: 28px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-lg);
+      cursor: pointer;
+      z-index: 40;
+      transition: transform 0.15s ease;
+    }
+
+    .fab:active {
+      transform: scale(0.92);
+    }
+
+    @media (min-width: 520px) {
+      .fab {
+        position: absolute;
+        bottom: 84px;
+        right: 20px;
+      }
+    }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      padding: 8px 6px calc(10px + var(--safe-bottom));
+      z-index: 35;
+    }
+
+    @media (min-width: 520px) {
+      .bottom-nav {
+        position: absolute;
+      }
+    }
+
+    .nav-item {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 4px 10px;
+      border-radius: 12px;
+      transition: color 0.15s ease;
+    }
+
+    .nav-item .nav-icon {
+      font-size: 19px;
+      line-height: 1;
+    }
+
+    .nav-item.active {
+      color: var(--primary);
+    }
+
+    /* Bottom Sheet Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 60;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-sheet {
+      width: 100%;
+      max-width: 480px;
+      background: var(--surface);
+      border-top-left-radius: 26px;
+      border-top-right-radius: 26px;
+      padding: 18px 20px calc(24px + var(--safe-bottom));
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: slideUp 0.22s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .modal-handle {
+      width: 40px;
+      height: 4px;
+      border-radius: 999px;
+      background: var(--border);
+      margin: 0 auto 14px;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .modal-header h2 {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .close-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: var(--surface-2);
+      color: var(--text-muted);
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .form-group {
+      margin-bottom: 13px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 700;
+      margin-bottom: 5px;
+      color: var(--text);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 11px 13px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      background: var(--surface);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .priority-selector {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .prio-opt {
+      padding: 9px 6px;
+      border-radius: 11px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text-muted);
+      font-size: 12.5px;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .prio-opt.active[data-prio="tinggi"] {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border-color: var(--danger);
+    }
+
+    .prio-opt.active[data-prio="sedang"] {
+      background: var(--warning-soft);
+      color: #D97706;
+      border-color: var(--warning);
+    }
+
+    .prio-opt.active[data-prio="santai"] {
+      background: var(--success-soft);
+      color: var(--success);
+      border-color: var(--success);
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-120%);
+      background: #0F172A;
+      color: #FFFFFF;
+      padding: 11px 16px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      z-index: 100;
+      transition: transform 0.25s ease;
+      max-width: 90%;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .toast button {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: #FBBF24;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .install-steps {
+      padding-left: 18px;
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    .install-steps li {
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-row">
+        <div class="brand">
+          <div class="brand-icon">🎒</div>
+          <div class="brand-text">
+            <h1>TugasKu SMA</h1>
+            <p id="todayDateLabel">Memuat tanggal...</p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button class="icon-btn" id="installInfoBtn" title="Pasang di Layar Utama HP" aria-label="Info Aplikasi">📲</button>
+          <button class="icon-btn" id="themeToggleBtn" title="Ganti Mode Gelap/Terang" aria-label="Ganti Tema">🌙</button>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="hero-main">
+          <div class="label">Sisa Tugas Aktif</div>
+          <div class="big-num" id="remainingCount">0</div>
+          <div class="sub-info" id="heroSubtext">Semua tugas beres! 🎉</div>
+        </div>
+        <div class="hero-pills">
+          <div class="mini-stat">
+            <span>🔥 Mendesak</span>
+            <strong id="urgentCount">0</strong>
+          </div>
+          <div class="mini-stat">
+            <span>✅ Selesai</span>
+            <strong id="completedCount">0</strong>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="storage-banner" id="storageBanner">
+      ⚠️ Kamu membuka file ini di penampil sementara. Buka lewat <strong>Google Chrome / Safari</strong> agar daftar tugas tersimpan otomatis di HP!
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- TAB 1: SISA TUGAS -->
+      <section class="view-section active" id="view-tasks">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Cari tugas, mapel, atau catatan..." />
+        </div>
+
+        <div class="chips-row" id="filterChips">
+          <button class="chip active" data-filter="all">Semua Sisa</button>
+          <button class="chip" data-filter="urgent">🔥 Mendesak (≤2 Hari)</button>
+          <button class="chip" data-filter="today">📅 Hari Ini</button>
+          <button class="chip" data-filter="kelompok">👥 Kelompok</button>
+          <button class="chip" data-filter="praktikum">🧪 Praktikum</button>
+        </div>
+
+        <div class="section-header">
+          <h2 class="section-title" id="listHeaderTitle">📋 Daftar Sisa Tugas</h2>
+          <button class="section-action" id="clearSamplesBtn" style="display:none;">Hapus Contoh</button>
+        </div>
+
+        <div class="task-list" id="activeTaskList"></div>
+      </section>
+
+      <!-- TAB 2: TIMELINE DEADLINE -->
+      <section class="view-section" id="view-timeline">
+        <div class="section-header">
+          <h2 class="section-title">⏳ Urutan Deadline Tugas</h2>
+        </div>
+        <div id="timelineContainer"></div>
+      </section>
+
+      <!-- TAB 3: PER MAPEL -->
+      <section class="view-section" id="view-subjects">
+        <div class="section-header">
+          <h2 class="section-title">📚 Sisa Tugas per Mata Pelajaran</h2>
+          <button class="section-action" id="resetSubjectFilterBtn" style="display:none;">Lihat Semua</button>
+        </div>
+        <div class="subject-grid" id="subjectGrid"></div>
+        <div id="subjectFilteredTasks" style="margin-top: 16px;"></div>
+      </section>
+
+      <!-- TAB 4: SELESAI & PENGATURAN -->
+      <section class="view-section" id="view-done">
+        <div class="section-header">
+          <h2 class="section-title">✅ Tugas yang Sudah Selesai</h2>
+          <button class="section-action" id="clearCompletedBtn" style="color: var(--danger);">Bersihkan</button>
+        </div>
+        <div class="task-list" id="completedTaskList" style="margin-bottom: 22px;"></div>
+
+        <div class="settings-card">
+          <h3>📲 Simpan & Cadangkan Data Tugas</h3>
+          <p>Semua tugas tersimpan otomatis secara offline di HP kamu. Kamu juga bisa ekspor file cadangan agar aman saat ganti browser.</p>
+          <div class="btn-row">
+            <button class="btn btn-primary" id="exportDataBtn">⬇️ Ekspor Backup</button>
+            <button class="btn" id="importDataBtn">⬆️ Impor Backup</button>
+            <input type="file" id="importFileInput" accept=".json" style="display:none;" />
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <h3>🔄 Reset Data</h3>
+          <p>Isi ulang contoh tugas SMA atau hapus semua data dari aplikasi.</p>
+          <div class="btn-row">
+            <button class="btn" id="loadSampleBtn">✨ Muat Contoh Tugas</button>
+            <button class="btn btn-danger" id="wipeAllBtn">🗑️ Hapus Semua</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Floating Add Button -->
+    <button class="fab" id="openAddModalBtn" aria-label="Tambah Tugas Baru">+</button>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-tab="tasks">
+        <span class="nav-icon">📝</span>
+        <span>Sisa Tugas</span>
+      </button>
+      <button class="nav-item" data-tab="timeline">
+        <span class="nav-icon">⏰</span>
+        <span>Deadline</span>
+      </button>
+      <button class="nav-item" data-tab="subjects">
+        <span class="nav-icon">📚</span>
+        <span>Per Mapel</span>
+      </button>
+      <button class="nav-item" data-tab="done">
+        <span class="nav-icon">⚙️</span>
+        <span>Selesai & Data</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Modal Tambah / Edit Tugas -->
+  <div class="modal-backdrop" id="taskModal">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <h2 id="modalTitle">Tambah Tugas Baru</h2>
+        <button class="close-btn" id="closeTaskModalBtn">✕</button>
+      </div>
+
+      <form id="taskForm">
+        <input type="hidden" id="taskId" />
+
+        <div class="form-group">
+          <label for="taskTitle">Nama / Judul Tugas *</label>
+          <input type="text" id="taskTitle" class="form-control" placeholder="Contoh: Laporan Praktikum Fisika / PR Hal. 45" required />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="taskSubject">Mata Pelajaran *</label>
+            <select id="taskSubject" class="form-control" required></select>
+          </div>
+          <div class="form-group">
+            <label for="taskType">Jenis Tugas</label>
+            <select id="taskType" class="form-control">
+              <option value="PR / Latihan">PR / Latihan</option>
+              <option value="Praktikum">Praktikum / Laporan</option>
+              <option value="Kelompok">Proyek / Kelompok</option>
+              <option value="Presentasi">Presentasi</option>
+              <option value="Ulangan / Hafalan">Ulangan / Hafalan</option>
+              <option value="Catatan">Catatan / Rangkuman</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group" id="customSubjectGroup" style="display:none;">
+          <label for="customSubjectInput">Nama Mapel Lainnya *</label>
+          <input type="text" id="customSubjectInput" class="form-control" placeholder="Tulis nama mata pelajaran..." />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="taskDate">Tanggal Deadline *</label>
+            <input type="date" id="taskDate" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label for="taskTime">Jam (Opsional)</label>
+            <input type="time" id="taskTime" class="form-control" value="23:59" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Tingkat Prioritas</label>
+          <div class="priority-selector" id="prioritySelector">
+            <div class="prio-opt" data-prio="tinggi">🔴 Tinggi</div>
+            <div class="prio-opt active" data-prio="sedang">🟡 Sedang</div>
+            <div class="prio-opt" data-prio="santai">🟢 Santai</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="taskNotes">Catatan / Detail (Opsional)</label>
+          <textarea id="taskNotes" class="form-control" rows="2" placeholder="Misal: Kumpul di Google Classroom, bawa penggaris, atau kelompok bareng..."></textarea>
+        </div>
+
+        <div class="btn-row" style="margin-top: 16px;">
+          <button type="button" class="btn btn-danger" id="deleteTaskBtn" style="display:none; flex: 0 0 auto;">🗑️ Hapus</button>
+          <button type="submit" class="btn btn-primary" style="padding: 13px;">💾 Simpan Tugas</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Panduan Install di HP -->
+  <div class="modal-backdrop" id="installModal">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-header">
+        <h2>📲 Cara Jadikan Aplikasi di Layar Utama HP</h2>
+        <button class="close-btn" id="closeInstallModalBtn">✕</button>
+      </div>
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">
+        Aplikasi <strong>TugasKu SMA</strong> ini berjalan 100% offline tanpa kuota internet. Biar gampang dibuka kayak aplikasi Android/iPhone biasa:
+      </p>
+      <ol class="install-steps">
+        <li>Pastikan file <strong>TugasKu-SMA.html</strong> ini dibuka menggunakan browser <strong>Google Chrome</strong> (Android) atau <strong>Safari</strong> (iPhone).</li>
+        <li>Ketuk ikon menu <strong>titik tiga (⋮)</strong> di pojok kanan atas Chrome (atau tombol <strong>Share</strong> di Safari).</li>
+        <li>Pilih <strong>"Tambahkan ke Layar Utama" (Add to Home Screen)</strong>, lalu tekan <strong>Tambah</strong>.</li>
+        <li>Ikon <strong>TugasKu SMA</strong> akan langsung muncul di layar depan HP kamu!</li>
+      </ol>
+      <button class="btn btn-primary" id="gotItInstallBtn" style="width: 100%; margin-top: 14px; padding: 12px;">Siap, Mengerti! 👍</button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <span id="toastMsg">Tugas diperbarui</span>
+    <button id="toastUndoBtn" style="display:none;">Batal</button>
+  </div>
+
+  <script>
+    (function() {
+      // Safe Storage Wrapper (fallback to memory if opened in restricted Android viewer)
+      let memoryStore = {};
+      let storageAvailable = true;
+      try {
+        const testKey = '__test_ls__';
+        window.localStorage.setItem(testKey, '1');
+        window.localStorage.removeItem(testKey);
+      } catch (e) {
+        storageAvailable = false;
+      }
+
+      if (!storageAvailable || window.location.protocol === 'content:') {
+        document.getElementById('storageBanner').style.display = 'block';
+      }
+
+      const store = {
+        get(key) {
+          try {
+            if (storageAvailable) return window.localStorage.getItem(key);
+          } catch (e) {}
+          return memoryStore[key] || null;
+        },
+        set(key, val) {
+          try {
+            if (storageAvailable) {
+              window.localStorage.setItem(key, val);
+              return;
+            }
+          } catch (e) {}
+          memoryStore[key] = val;
+        }
+      };
+
+      // Daftar Mata Pelajaran SMA
+      const SUBJECT_META = {
+        "Matematika": { icon: "📐", color: "#4F46E5", bg: "#EEF2FF" },
+        "Fisika": { icon: "⚡", color: "#0284C7", bg: "#E0F2FE" },
+        "Kimia": { icon: "🧪", color: "#0D9488", bg: "#CCFBF1" },
+        "Biologi": { icon: "🧬", color: "#16A34A", bg: "#DCFCE7" },
+        "Informatika / KKA": { icon: "💻", color: "#2563EB", bg: "#DBEAFE" },
+        "Bahasa Indonesia": { icon: "📖", color: "#DC2626", bg: "#FEE2E2" },
+        "Bahasa Inggris": { icon: "🌐", color: "#7C3AED", bg: "#EDE9FE" },
+        "Bahasa Sunda": { icon: "🎋", color: "#059669", bg: "#D1FAE5" },
+        "Sosiologi": { icon: "👥", color: "#D97706", bg: "#FEF3C7" },
+        "Ekonomi": { icon: "📊", color: "#CA8A04", bg: "#FEF9C3" },
+        "Geografi": { icon: "🌍", color: "#0891B2", bg: "#CFFAFE" },
+        "Sejarah": { icon: "🏛️", color: "#9A3412", bg: "#FFEDD5" },
+        "PPKn": { icon: "🇮🇩", color: "#E11D48", bg: "#FFE4E6" },
+        "PAI / Budi Pekerti": { icon: "🕌", color: "#15803D", bg: "#DCFCE7" },
+        "PJOK": { icon: "⚽", color: "#EA580C", bg: "#FFEDD5" },
+        "Seni Budaya": { icon: "🎨", color: "#DB2777", bg: "#FCE7F3" },
+        "Lainnya": { icon: "📌", color: "#475569", bg: "#F1F5F9" }
+      };
+
+      const STORAGE_KEY = 'tugasku_sma_tasks_v1';
+      const THEME_KEY = 'tugasku_sma_theme_v1';
+
+      function getRelativeDateStr(daysOffset) {
+        const d = new Date();
+        d.setDate(d.getDate() + daysOffset);
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}`;
+      }
+
+      function createSampleTasks() {
+        return [
+          {
+            id: 'sample-1',
+            isSample: true,
+            title: 'Laporan Praktikum Pengukuran Cahaya',
+            subject: 'Fisika',
+            type: 'Praktikum',
+            date: getRelativeDateStr(1),
+            time: '07:00',
+            priority: 'tinggi',
+            notes: 'Rapikan tabel data pengamatan & kesimpulan kelompok.',
+            completed: false,
+            createdAt: Date.now() - 50000
+          },
+          {
+            id: 'sample-2',
+            isSample: true,
+            title: 'Latihan Soal Program Linear & Logaritma',
+            subject: 'Matematika',
+            type: 'PR / Latihan',
+            date: getRelativeDateStr(0),
+            time: '21:00',
+            priority: 'tinggi',
+            notes: 'Kerjakan 5 soal di buku catatan lengkap dengan langkah penyelesaian.',
+            completed: false,
+            createdAt: Date.now() - 40000
+          },
+          {
+            id: 'sample-3',
+            isSample: true,
+            title: 'Proyek Aplikasi Web Kelas (KKA)',
+            subject: 'Informatika / KKA',
+            type: 'Kelompok',
+            date: getRelativeDateStr(3),
+            time: '15:00',
+            priority: 'sedang',
+            notes: 'Cek fitur CRUD & tampilan mobile bersama tim.',
+            completed: false,
+            createdAt: Date.now() - 30000
+          },
+          {
+            id: 'sample-4',
+            isSample: true,
+            title: 'Menulis Kosakata Aksara Sunda & Rarangkén',
+            subject: 'Bahasa Sunda',
+            type: 'Catatan',
+            date: getRelativeDateStr(4),
+            time: '12:00',
+            priority: 'santai',
+            notes: 'Latihan penulisan Aksara Swara di buku tulis.',
+            completed: false,
+            createdAt: Date.now() - 20000
+          },
+          {
+            id: 'sample-5',
+            isSample: true,
+            title: 'Video Storytelling Kelompok',
+            subject: 'Bahasa Inggris',
+            type: 'Presentasi',
+            date: getRelativeDateStr(-1),
+            time: '16:00',
+            priority: 'sedang',
+            notes: 'Sudah di-upload ke link pengumpulan kelas.',
+            completed: true,
+            createdAt: Date.now() - 60000
+          }
+        ];
+      }
+
+      // State
+      let tasks = [];
+      let currentTab = 'tasks';
+      let currentFilter = 'all';
+      let searchQuery = '';
+      let selectedPriority = 'sedang';
+      let selectedSubjectView = null;
+      let lastToggledTaskId = null;
+      let toastTimer = null;
+
+      function loadTasks() {
+        const raw = store.get(STORAGE_KEY);
+        if (raw) {
+          try {
+            tasks = JSON.parse(raw);
+            return;
+          } catch (e) {}
+        }
+        tasks = createSampleTasks();
+        saveTasks();
+      }
+
+      function saveTasks() {
+        store.set(STORAGE_KEY, JSON.stringify(tasks));
+      }
+
+      // Theme
+      function initTheme() {
+        const saved = store.get(THEME_KEY);
+        if (saved === 'dark') {
+          document.body.classList.add('dark');
+          document.getElementById('themeToggleBtn').textContent = '☀️';
+        }
+      }
+
+      document.getElementById('themeToggleBtn').addEventListener('click', () => {
+        const isDark = document.body.classList.toggle('dark');
+        store.set(THEME_KEY, isDark ? 'dark' : 'light');
+        document.getElementById('themeToggleBtn').textContent = isDark ? '☀️' : '🌙';
+      });
+
+      // Format Tanggal Indonesia
+      function formatTodayHeader() {
+        const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+        const now = new Date();
+        document.getElementById('todayDateLabel').textContent =
+          `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+      }
+
+      function getDaysDiff(dateStr) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const parts = dateStr.split('-');
+        const target = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+        target.setHours(0, 0, 0, 0);
+        return Math.round((target - today) / (1000 * 60 * 60 * 24));
+      }
+
+      function formatIndoDate(dateStr) {
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+        const parts = dateStr.split('-');
+        if (parts.length !== 3) return dateStr;
+        return `${Number(parts[2])} ${months[Number(parts[1]) - 1]}`;
+      }
+
+      function getDeadlineInfo(task) {
+        if (task.completed) {
+          return { label: '✅ Selesai', cls: 'deadline-done', diff: 999 };
+        }
+        const diff = getDaysDiff(task.date);
+        if (diff < 0) {
+          return { label: `⚠️ Terlewat ${Math.abs(diff)} hari`, cls: 'deadline-overdue', diff };
+        }
+        if (diff === 0) {
+          return { label: `🔥 Hari Ini${task.time ? ' • ' + task.time : ''}`, cls: 'deadline-urgent', diff };
+        }
+        if (diff === 1) {
+          return { label: `⚡ Besok${task.time ? ' • ' + task.time : ''}`, cls: 'deadline-urgent', diff };
+        }
+        if (diff <= 3) {
+          return { label: `⏳ H-${diff} (${formatIndoDate(task.date)})`, cls: 'deadline-urgent', diff };
+        }
+        return { label: `📅 H-${diff} (${formatIndoDate(task.date)})`, cls: 'deadline-normal', diff };
+      }
+
+      function getSubjectStyle(subjectName) {
+        return SUBJECT_META[subjectName] || { icon: "📘", color: "#4F46E5", bg: "#EEF2FF" };
+      }
+
+      function showToast(msg, showUndo = false) {
+        const toast = document.getElementById('toast');
+        document.getElementById('toastMsg').textContent = msg;
+        const undoBtn = document.getElementById('toastUndoBtn');
+        undoBtn.style.display = showUndo ? 'inline-block' : 'none';
+        toast.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          toast.classList.remove('show');
+        }, 3200);
+      }
+
+      document.getElementById('toastUndoBtn').addEventListener('click', () => {
+        if (lastToggledTaskId) {
+          toggleTaskComplete(lastToggledTaskId, true);
+          lastToggledTaskId = null;
+          document.getElementById('toast').classList.remove('show');
+        }
+      });
+
+      // Populate Subject Select
+      function populateSubjectSelect() {
+        const sel = document.getElementById('taskSubject');
+        sel.innerHTML = '';
+        Object.keys(SUBJECT_META).forEach(subj => {
+          const opt = document.createElement('option');
+          opt.value = subj;
+          opt.textContent = `${SUBJECT_META[subj].icon} ${subj}`;
+          sel.appendChild(opt);
+        });
+      }
+
+      document.getElementById('taskSubject').addEventListener('change', (e) => {
+        const customGrp = document.getElementById('customSubjectGroup');
+        customGrp.style.display = e.target.value === 'Lainnya' ? 'block' : 'none';
+      });
+
+      // Create Task Card Element
+      function renderTaskCard(task) {
+        const meta = getSubjectStyle(task.subject);
+        const dl = getDeadlineInfo(task);
+        const prioColor = task.priority === 'tinggi' ? '#EF4444' : (task.priority === 'sedang' ? '#F59E0B' : '#10B981');
+
+        const card = document.createElement('div');
+        card.className = `task-card ${task.completed ? 'completed' : ''} ${dl.diff < 0 && !task.completed ? 'overdue' : ''}`;
+        card.style.setProperty('--card-accent', meta.color);
+
+        card.innerHTML = `
+          <button class="check-circle" aria-label="Tandai Selesai">${task.completed ? '✓' : ''}</button>
+          <div class="task-body">
+            <div class="task-top-meta">
+              <span class="subject-badge" style="background:${meta.bg}; color:${meta.color};">${meta.icon} ${escapeHtml(task.subject)}</span>
+              <span class="type-badge">${escapeHtml(task.type || 'Tugas')}</span>
+              <span class="priority-dot" style="background:${prioColor};" title="Prioritas ${task.priority}"></span>
+            </div>
+            <div class="task-title">${escapeHtml(task.title)}</div>
+            ${task.notes ? `<div class="task-notes">${escapeHtml(task.notes)}</div>` : ''}
+            <div class="task-footer">
+              <span class="deadline-pill ${dl.cls}">${dl.label}</span>
+              <span class="date-text">${formatIndoDate(task.date)}</span>
+            </div>
+          </div>
+        `;
+
+        card.querySelector('.check-circle').addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleTaskComplete(task.id);
+        });
+
+        card.querySelector('.task-body').addEventListener('click', () => {
+          openEditModal(task.id);
+        });
+
+        return card;
+      }
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function toggleTaskComplete(id, isUndo = false) {
+        const idx = tasks.findIndex(t => t.id === id);
+        if (idx === -1) return;
+        tasks[idx].completed = !tasks[idx].completed;
+        saveTasks();
+        renderAll();
+        if (!isUndo) {
+          lastToggledTaskId = id;
+          showToast(
+            tasks[idx].completed ? 'Mantap! Tugas ditandai selesai 🎉' : 'Tugas dikembalikan ke daftar sisa',
+            true
+          );
+        }
+      }
+
+      // Render All Views
+      function renderAll() {
+        const activeTasks = tasks
+          .filter(t => !t.completed)
+          .sort((a, b) => a.date.localeCompare(b.date) || (a.time || '').localeCompare(b.time || ''));
+        const completedTasks = tasks.filter(t => t.completed);
+
+        // Update Hero Stats
+        const urgentTasks = activeTasks.filter(t => getDaysDiff(t.date) <= 2);
+        document.getElementById('remainingCount').textContent = activeTasks.length;
+        document.getElementById('urgentCount').textContent = urgentTasks.length;
+        document.getElementById('completedCount').textContent = completedTasks.length;
+
+        const heroSub = document.getElementById('heroSubtext');
+        if (activeTasks.length === 0) {
+          heroSub.textContent = 'Semua tugas beres! Waktunya istirahat 🎉';
+        } else if (urgentTasks.length > 0) {
+          heroSub.textContent = `Ada ${urgentTasks.length} tugas mendekati deadline!`;
+        } else {
+          heroSub.textContent = 'Deadline masih aman, cicil pelan-pelan 💪';
+        }
+
+        // Show/hide Clear Samples button
+        const hasSamples = tasks.some(t => t.isSample);
+        document.getElementById('clearSamplesBtn').style.display = hasSamples ? 'inline-block' : 'none';
+
+        // 1. Render Active Task List (with filters & search)
+        const listEl = document.getElementById('activeTaskList');
+        listEl.innerHTML = '';
+
+        const filtered = activeTasks.filter(t => {
+          const diff = getDaysDiff(t.date);
+          if (currentFilter === 'urgent' && diff > 2) return false;
+          if (currentFilter === 'today' && diff !== 0) return false;
+          if (currentFilter === 'kelompok' && t.type !== 'Kelompok') return false;
+          if (currentFilter === 'praktikum' && t.type !== 'Praktikum') return false;
+
+          if (searchQuery.trim() !== '') {
+            const q = searchQuery.toLowerCase();
+            const match =
+              t.title.toLowerCase().includes(q) ||
+              t.subject.toLowerCase().includes(q) ||
+              (t.notes && t.notes.toLowerCase().includes(q));
+            if (!match) return false;
+          }
+          return true;
+        });
+
+        if (filtered.length === 0) {
+          listEl.innerHTML = `
+            <div class="empty-state">
+              <span class="emoji">${activeTasks.length === 0 ? '🥳' : '🔍'}</span>
+              <h3>${activeTasks.length === 0 ? 'Tidak Ada Sisa Tugas!' : 'Tugas Tidak Ditemukan'}</h3>
+              <p>${activeTasks.length === 0 ? 'Ketuk tombol + di bawah untuk mencatat tugas sekolah baru.' : 'Coba ganti filter atau kata kunci pencarianmu.'}</p>
+            </div>
+          `;
+        } else {
+          filtered.forEach(t => listEl.appendChild(renderTaskCard(t)));
+        }
+
+        // 2. Render Timeline View
+        renderTimelineView(activeTasks);
+
+        // 3. Render Subjects View
+        renderSubjectsView(activeTasks);
+
+        // 4. Render Completed List
+        const compEl = document.getElementById('completedTaskList');
+        compEl.innerHTML = '';
+        if (completedTasks.length === 0) {
+          compEl.innerHTML = `
+            <div class="empty-state" style="padding: 24px 16px;">
+              <span class="emoji" style="font-size: 32px;">📭</span>
+              <h3>Belum Ada Tugas Selesai</h3>
+              <p>Centang lingkaran di sebelah kiri tugas jika sudah dikumpulkan.</p>
+            </div>
+          `;
+        } else {
+          completedTasks.forEach(t => compEl.appendChild(renderTaskCard(t)));
+        }
+      }
+
+      function renderTimelineView(activeTasks) {
+        const container = document.getElementById('timelineContainer');
+        container.innerHTML = '';
+
+        if (activeTasks.length === 0) {
+          container.innerHTML = `
+            <div class="empty-state">
+              <span class="emoji">🗓️</span>
+              <h3>Jadwal Deadline Kosong</h3>
+              <p>Belum ada sisa tugas yang perlu dikerjakan.</p>
+            </div>
+          `;
+          return;
+        }
+
+        const groups = [
+          { title: '🚨 Terlewat Deadline', items: activeTasks.filter(t => getDaysDiff(t.date) < 0) },
+          { title: '🔥 Hari Ini', items: activeTasks.filter(t => getDaysDiff(t.date) === 0) },
+          { title: '⚡ Besok', items: activeTasks.filter(t => getDaysDiff(t.date) === 1) },
+          { title: '📅 Minggu Ini (2–7 Hari Lagi)', items: activeTasks.filter(t => { const d = getDaysDiff(t.date); return d >= 2 && d <= 7; }) },
+          { title: '🗓️ Minggu Depan & Nanti', items: activeTasks.filter(t => getDaysDiff(t.date) > 7) }
+        ];
+
+        groups.forEach(g => {
+          if (g.items.length === 0) return;
+          const grpDiv = document.createElement('div');
+          grpDiv.className = 'timeline-group';
+          grpDiv.innerHTML = `<div class="timeline-label">${g.title} (${g.items.length})</div>`;
+          const list = document.createElement('div');
+          list.className = 'task-list';
+          g.items.forEach(t => list.appendChild(renderTaskCard(t)));
+          grpDiv.appendChild(list);
+          container.appendChild(grpDiv);
+        });
+      }
+
+      function renderSubjectsView(activeTasks) {
+        const grid = document.getElementById('subjectGrid');
+        const filteredBox = document.getElementById('subjectFilteredTasks');
+        const resetBtn = document.getElementById('resetSubjectFilterBtn');
+        grid.innerHTML = '';
+        filteredBox.innerHTML = '';
+
+        // Collect all subjects present in tasks + main SMA subjects
+        const subjectCounts = {};
+        tasks.forEach(t => {
+          if (!subjectCounts[t.subject]) {
+            subjectCounts[t.subject] = { remaining: 0, total: 0 };
+          }
+          subjectCounts[t.subject].total += 1;
+          if (!t.completed) subjectCounts[t.subject].remaining += 1;
+        });
+
+        const subjectsWithTasks = Object.keys(subjectCounts);
+        if (subjectsWithTasks.length === 0) {
+          grid.style.display = 'none';
+          filteredBox.innerHTML = `
+            <div class="empty-state">
+              <span class="emoji">📚</span>
+              <h3>Belum Ada Tugas Mapel</h3>
+              <p>Tambahkan tugas baru untuk melihat ringkasan per mata pelajaran.</p>
+            </div>
+          `;
+          return;
+        }
+
+        grid.style.display = 'grid';
+        subjectsWithTasks.sort((a, b) => subjectCounts[b].remaining - subjectCounts[a].remaining);
+
+        subjectsWithTasks.forEach(subj => {
+          const meta = getSubjectStyle(subj);
+          const stat = subjectCounts[subj];
+          const donePct = stat.total > 0 ? Math.round(((stat.total - stat.remaining) / stat.total) * 100) : 100;
+
+          const card = document.createElement('div');
+          card.className = 'subject-card';
+          if (selectedSubjectView === subj) {
+            card.style.borderColor = meta.color;
+            card.style.boxShadow = `0 0 0 2px ${meta.color}33`;
+          }
+
+          card.innerHTML = `
+            <div class="subject-card-top">
+              <div class="subject-emoji" style="background:${meta.bg};">${meta.icon}</div>
+              <div class="subject-count" style="color:${stat.remaining > 0 ? meta.color : 'var(--success)'};">
+                ${stat.remaining} <span style="font-size:11px; font-weight:600; color:var(--text-muted);">sisa</span>
+              </div>
+            </div>
+            <div class="subject-name">${escapeHtml(subj)}</div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width:${donePct}%; background:${meta.color};"></div>
+            </div>
+          `;
+
+          card.addEventListener('click', () => {
+            selectedSubjectView = selectedSubjectView === subj ? null : subj;
+            renderSubjectsView(activeTasks);
+          });
+
+          grid.appendChild(card);
+        });
+
+        if (selectedSubjectView) {
+          resetBtn.style.display = 'inline-block';
+          const subTasks = activeTasks.filter(t => t.subject === selectedSubjectView);
+          filteredBox.innerHTML = `<div class="timeline-label">Sisa Tugas ${escapeHtml(selectedSubjectView)} (${subTasks.length})</div>`;
+          const list = document.createElement('div');
+          list.className = 'task-list';
+          if (subTasks.length === 0) {
+            list.innerHTML = `<div class="empty-state" style="padding:20px;"><p>Semua tugas ${escapeHtml(selectedSubjectView)} sudah selesai! 🎉</p></div>`;
+          } else {
+            subTasks.forEach(t => list.appendChild(renderTaskCard(t)));
+          }
+          filteredBox.appendChild(list);
+        } else {
+          resetBtn.style.display = 'none';
+        }
+      }
+
+      document.getElementById('resetSubjectFilterBtn').addEventListener('click', () => {
+        selectedSubjectView = null;
+        renderAll();
+      });
+
+      // Navigation Tabs
+      document.querySelectorAll('.nav-item').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentTab = btn.dataset.tab;
+          document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+          document.getElementById(`view-${currentTab}`).classList.add('active');
+        });
+      });
+
+      // Filter Chips & Search
+      document.querySelectorAll('#filterChips .chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          document.querySelectorAll('#filterChips .chip').forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          currentFilter = chip.dataset.filter;
+          renderAll();
+        });
+      });
+
+      document.getElementById('searchInput').addEventListener('input', (e) => {
+        searchQuery = e.target.value;
+        renderAll();
+      });
+
+      // Modal Add/Edit Logic
+      const taskModal = document.getElementById('taskModal');
+      const taskForm = document.getElementById('taskForm');
+
+      function setPriorityUI(prio) {
+        selectedPriority = prio;
+        document.querySelectorAll('.prio-opt').forEach(el => {
+          el.classList.toggle('active', el.dataset.prio === prio);
+        });
+      }
+
+      document.querySelectorAll('.prio-opt').forEach(el => {
+        el.addEventListener('click', () => setPriorityUI(el.dataset.prio));
+      });
+
+      document.getElementById('openAddModalBtn').addEventListener('click', () => {
+        document.getElementById('modalTitle').textContent = 'Tambah Tugas Baru';
+        document.getElementById('taskId').value = '';
+        taskForm.reset();
+        document.getElementById('taskDate').value = getRelativeDateStr(1);
+        document.getElementById('taskTime').value = '23:59';
+        document.getElementById('customSubjectGroup').style.display = 'none';
+        document.getElementById('deleteTaskBtn').style.display = 'none';
+        setPriorityUI('sedang');
+        taskModal.classList.add('open');
+      });
+
+      function openEditModal(id) {
+        const task = tasks.find(t => t.id === id);
+        if (!task) return;
+        document.getElementById('modalTitle').textContent = 'Edit Tugas';
+        document.getElementById('taskId').value = task.id;
+        document.getElementById('taskTitle').value = task.title;
+        document.getElementById('taskType').value = task.type || 'PR / Latihan';
+        document.getElementById('taskDate').value = task.date;
+        document.getElementById('taskTime').value = task.time || '23:59';
+        document.getElementById('taskNotes').value = task.notes || '';
+
+        if (SUBJECT_META[task.subject]) {
+          document.getElementById('taskSubject').value = task.subject;
+          document.getElementById('customSubjectGroup').style.display = 'none';
+        } else {
+          document.getElementById('taskSubject').value = 'Lainnya';
+          document.getElementById('customSubjectGroup').style.display = 'block';
+          document.getElementById('customSubjectInput').value = task.subject;
+        }
+
+        setPriorityUI(task.priority || 'sedang');
+        document.getElementById('deleteTaskBtn').style.display = 'inline-flex';
+        taskModal.classList.add('open');
+      }
+
+      document.getElementById('closeTaskModalBtn').addEventListener('click', () => {
+        taskModal.classList.remove('open');
+      });
+
+      taskModal.addEventListener('click', (e) => {
+        if (e.target === taskModal) taskModal.classList.remove('open');
+      });
+
+      taskForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const id = document.getElementById('taskId').value;
+        const title = document.getElementById('taskTitle').value.trim();
+        let subject = document.getElementById('taskSubject').value;
+        if (subject === 'Lainnya') {
+          const custom = document.getElementById('customSubjectInput').value.trim();
+          subject = custom || 'Lainnya';
+        }
+        const type = document.getElementById('taskType').value;
+        const date = document.getElementById('taskDate').value;
+        const time = document.getElementById('taskTime').value;
+        const notes = document.getElementById('taskNotes').value.trim();
+
+        if (!title || !date) return;
+
+        if (id) {
+          const idx = tasks.findIndex(t => t.id === id);
+          if (idx !== -1) {
+            tasks[idx] = { ...tasks[idx], title, subject, type, date, time, priority: selectedPriority, notes, isSample: false };
+          }
+          showToast('Tugas berhasil diperbarui ✏️');
+        } else {
+          tasks.unshift({
+            id: 'task-' + Date.now(),
+            isSample: false,
+            title,
+            subject,
+            type,
+            date,
+            time,
+            priority: selectedPriority,
+            notes,
+            completed: false,
+            createdAt: Date.now()
+          });
+          showToast('Tugas baru ditambahkan! 📝');
+        }
+
+        saveTasks();
+        renderAll();
+        taskModal.classList.remove('open');
+      });
+
+      document.getElementById('deleteTaskBtn').addEventListener('click', () => {
+        const id = document.getElementById('taskId').value;
+        if (!id) return;
+        tasks = tasks.filter(t => t.id !== id);
+        saveTasks();
+        renderAll();
+        taskModal.classList.remove('open');
+        showToast('Tugas dihapus 🗑️');
+      });
+
+      // Sample & Data Actions
+      document.getElementById('clearSamplesBtn').addEventListener('click', () => {
+        tasks = tasks.filter(t => !t.isSample);
+        saveTasks();
+        renderAll();
+        showToast('Contoh tugas dibersihkan ✨');
+      });
+
+      document.getElementById('loadSampleBtn').addEventListener('click', () => {
+        const samples = createSampleTasks();
+        tasks = [...samples, ...tasks.filter(t => !t.isSample)];
+        saveTasks();
+        renderAll();
+        showToast('Contoh tugas SMA dimuat ✨');
+      });
+
+      document.getElementById('clearCompletedBtn').addEventListener('click', () => {
+        tasks = tasks.filter(t => !t.completed);
+        saveTasks();
+        renderAll();
+        showToast('Riwayat tugas selesai dibersihkan');
+      });
+
+      document.getElementById('wipeAllBtn').addEventListener('click', () => {
+        if (confirm('Yakin ingin menghapus semua daftar tugas?')) {
+          tasks = [];
+          saveTasks();
+          renderAll();
+          showToast('Semua data dihapus');
+        }
+      });
+
+      // Export & Import JSON Backup
+      document.getElementById('exportDataBtn').addEventListener('click', () => {
+        const blob = new Blob([JSON.stringify(tasks, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `backup-tugasku-sma-${getRelativeDateStr(0)}.json`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        showToast('File backup berhasil diunduh ⬇️');
+      });
+
+      document.getElementById('importDataBtn').addEventListener('click', () => {
+        document.getElementById('importFileInput').click();
+      });
+
+      document.getElementById('importFileInput').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          try {
+            const imported = JSON.parse(ev.target.result);
+            if (Array.isArray(imported)) {
+              tasks = imported;
+              saveTasks();
+              renderAll();
+              showToast('Data tugas berhasil dipulihkan! ✅');
+            } else {
+              alert('Format file backup tidak valid.');
+            }
+          } catch (err) {
+            alert('Gagal membaca file backup.');
+          }
+        };
+        reader.readAsText(file);
+        e.target.value = '';
+      });
+
+      // Install Modal
+      const installModal = document.getElementById('installModal');
+      document.getElementById('installInfoBtn').addEventListener('click', () => {
+        installModal.classList.add('open');
+      });
+      document.getElementById('closeInstallModalBtn').addEventListener('click', () => {
+        installModal.classList.remove('open');
+      });
+      document.getElementById('gotItInstallBtn').addEventListener('click', () => {
+        installModal.classList.remove('open');
+      });
+      installModal.addEventListener('click', (e) => {
+        if (e.target === installModal) installModal.classList.remove('open');
+      });
+
+      // Initialize App
+      initTheme();
+      formatTodayHeader();
+      populateSubjectSelect();
+      loadTasks();
+      renderAll();
+    })();
+  </script>
+</body>
+</html>
